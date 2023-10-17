@@ -20,15 +20,15 @@ public class UsuarioController {
         this.usuarioRepository = usuarioRepository;
     }
 
-    @GetMapping("/")
+    @GetMapping("/cadastrar")
     public String cadastrar() {
        return "cadastro_usuario";
     }
 
     @PostMapping("/cadastrar")
-    public void inserir(Usuario usuario) throws SQLException {
+    public String inserir(Usuario usuario) throws SQLException {
         usuarioRepository.inserir(usuario);
-        listar();
+        return "redirect:/usuarios/listar";
     }
 
     @GetMapping("/listar")

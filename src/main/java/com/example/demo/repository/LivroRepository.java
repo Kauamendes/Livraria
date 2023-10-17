@@ -25,6 +25,8 @@ public class LivroRepository {
                 livro.setId(resultado.getLong("id"));
                 livro.setTitulo(resultado.getString("titulo"));
                 livro.setAutor(resultado.getString("autor"));
+                livro.setDataPublicacao(resultado.getString("data_publicacao"));
+                livro.setEditora(resultado.getString("editora"));
                 livros.add(livro);
             }
         } catch (Exception e) {
@@ -38,16 +40,19 @@ public class LivroRepository {
     public void inserir(Livro livro) throws SQLException {
         Connection conn = Conexao.conectar();
         String sql = "INSERT INTO LIVRO (titulo, autor, data_publicacao, editora) VALUES (?, ?, ?, ?)";
-        Date dataPublicacao = new Date(livro.getDataPublicacao().getTime());
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, livro.getTitulo());
+            stmt.setString(2, livro.getAutor());
+            stmt.setDate(3, Date.valueOf(livro.getDataPublicacao()));
+            stmt.setString(4, livro.getEditora());
 
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setString(1, livro.getTitulo());
-        stmt.setString(2, livro.getAutor());
-        stmt.setDate(3, dataPublicacao);
-        stmt.setString(4, livro.getEditora());
-
-        stmt.execute();
-        stmt.close();
-        Conexao.desconectar();
+            stmt.execute();
+            stmt.close();
+        } catch (Exception e) {
+            System.out.println("Erro ao listar livros: "+e.getMessage());
+        } finally {
+            Conexao.desconectar();
+        }
     }
 }

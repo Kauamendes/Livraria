@@ -16,7 +16,7 @@ public class Livro {
     private Long id;
     private String titulo;
     private String autor;
-    private Date dataPublicacao;
+    private String dataPublicacao;
     private String editora;
 
 }

@@ -23,15 +23,15 @@ public class LivroController {
         this.livroRepository = livroRepository;
     }
 
-    @GetMapping("/")
+    @GetMapping("/cadastrar")
     public String cadastrar() {
         return "cadastro_livro";
     }
 
     @PostMapping("/cadastrar")
-    public void inserir(Livro livro) throws SQLException {
+    public String inserir(Livro livro) throws SQLException {
         livroRepository.inserir(livro);
-        listar();
+        return "redirect:/livros/listar";
     }
 
     @GetMapping("/listar")
