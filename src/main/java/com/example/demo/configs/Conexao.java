@@ -8,12 +8,12 @@ public class Conexao {
 
     private static Connection connection;
 
-    public static Connection conectar() throws SQLException {
+    public static synchronized Connection conectar() throws SQLException {
         if (connection == null) {
             connection = DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/my_database",
-                    "postgres",
-                    "password"
+                    "jdbc:postgresql://localhost:5432/livraria",
+                    System.getenv("DATABASE_USERNAME"),
+                    System.getenv("DATABASE_PASSWORD")
             );
         }
 

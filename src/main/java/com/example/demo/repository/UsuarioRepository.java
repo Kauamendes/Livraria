@@ -5,10 +5,7 @@ import com.example.demo.domain.Livro;
 import com.example.demo.domain.Usuario;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +37,18 @@ public class UsuarioRepository {
         return usuarios;
     }
 
-    public void inserir(Usuario usuario) {
+    public void inserir(Usuario usuario) throws SQLException {
+        Connection conn = Conexao.conectar();
+        String sql = "INSERT INTO USUARIO (cpf, nome, login, senha) VALUES (?, ?, ?, ?)";
+
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, usuario.getCpf());
+        stmt.setString(2, usuario.getNome());
+        stmt.setString(3, usuario.getLogin());
+        stmt.setString(4, usuario.getSenha());
+
+        stmt.execute();
+        stmt.close();
+        Conexao.desconectar();
     }
 }
